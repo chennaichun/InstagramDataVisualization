@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title >City Mining Andorra_Instagram Map | MIT Media Lab | Changing Places</title>
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />-->
+    <!--<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>-->
+
+    <!--<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>-->
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="d3.layout.cloud.js"></script>
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <!-- Google maps libs -->
+    <!--<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>-->
+    <!--<script src="js/infobox.js"></script>-->
+    <!--<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClcDIfFJfW5-pehznKpBGoE-RkmBGuH3w&callback=initMap"></script>-->
+    <!--<script src="leaflet-google.js"></script>-->
+
+    <!-- local js files -->
+    <script type="text/javascript" src="js/eventImage.js"></script>
+    <script type="text/javascript" src="js/heatMap.js"></script>
+    <script type="text/javascript" src="js/hourBar.js"></script>
+    <script type="text/javascript" src="js/langPie.js"></script>
+    <script type="text/javascript" src="js/monthBar.js"></script>
+    <script type="text/javascript" src="js/weekdayBar.js"></script>
+    <script type="text/javascript" src="js/wordCloud.js"></script>
+    <script type="text/javascript" src="js/yearBar.js"></script>
+
+    <!-- lightGallery libs -->
+    <link rel="stylesheet" type="text/css" href="css/lightgallery.min.css">
+    <script src="lib/lightgallery.min.js"></script>
+
+    <!-- lightgallery plugins -->
+    <script src="lib/lg-thumbnail.min.js"></script>
+    <script src="lib/lg-fullscreen.min.js"></script>
+    
+</head>
+<body>
+    <div id="container">
+        <div>
+            <p id="t" style="font-weight: 60; color: white;font-family: helvetica;text-align: center;" align="center"> CITY MINING INSTAGRAM</p>
+        </div>
+        <div id="mapnwc">
+            <div id="event"></div>
+            <div id="map"></div>
+            <div id="info"></div>
+        </div>
+        
+        <div id="row1">
+            <div id="event_info"></div>
+        </div>
+        <script>
+       //  /* Set up Leaflet.js map */
+       //  var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+       //      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+       //      subdomain: 'abcd'
+       //      });
+       //  // create google layer     
+       //  var googleLayer = new L.Google('SATELLITE');
+        
+       //  var map = L.map('map', {
+       //      scrollWheelZoom: true,
+       //      center: [42.5419286,1.575],
+       //      zoom: 11,
+       //      zoomControl: false,
+       //      attributionControl : false
+       //      });
+        
+       //  L.control.zoom({
+       //      position:'topright'
+       //      }).addTo(map);
+        
+       //  //map.addLayer(layer);
+
+       //  // add google layer
+       // map.addLayer(googleLayer);
+        
+       //  /* Initialize the SVG layer */
+       //  map._initPathRoot()
+        var map;
+        function initMap() {
+            // Create the map.
+            map = new google.maps.Map(d3.select("#map").node(), {
+                center: {lat: 42.5419286, lng: 1.575},
+                zoom: 11,
+                zoomControl: true,
+                mapTypeId: 'satellite'
+            });
+        }
+
+        /* Set up svg and some elements for charts */
+        
+        /* Set up title position & font size */
+        var titleFontSize = 20, titleYPosition = 15, chartShift = 20, color = "white";
+        
+        /* Set up svg size & position */
+        var margin = {top: 40, right: 35, bottom: 30, left: 30},
+        width0 = 250,
+        height0 = 285,
+        height = 185 - margin.top - margin.bottom,
+        widthpie = 300 - margin.left - margin.right + 10;
+        
+        /* svg0 for Event Selector */
+        var svg0 = d3.select("#event");
+        
+        var imgsvg = svg0.append("svg")
+            .attr("width", width0)
+            .attr("height", height0)
+            .append("g");
+        
+        /* piesvg for Language Selector - Pie chart - also in svg0 */
+        var piesvg = svg0.append("svg")
+            .attr("width", widthpie+ margin.left + margin.right - 10)
+            .attr("height", 180 + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + (margin.left+90) + "," + (margin.top+60) + ")");
+        
+        /* svg1 for Heatmap */
+        /* We simply pick up the SVG from the map object */
+        var svg1 = d3.select("#map").select("svg"),
+        g = svg1.append("g");
+        
+        // svg3 for World Cloud 
+        var svg3 = d3.select("#mapnwc")
+            .append("svg")
+            .attr("width", 410)
+            .attr("height", 450);
+        
+        /* svg4 for Year - bar chart */
+        var width4 = 180 - margin.left - margin.right;
+        
+        //var svg4 = d3.select("#row1").append("svg")
+        var svg5 = d3.select(document.createElementNS(d3.ns.prefix.svg, 'svg'))
+            .attr("width", width4 + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(0, " + margin.top + ")");
+        
+        /* svg5 for Month - bar chart */
+        var width5 = 415 - margin.left - margin.right;
+        
+        //var svg5 = d3.select("#row1").append("svg")
+        var svg4 = d3.select(document.createElementNS(d3.ns.prefix.svg, 'svg'))
+            .attr("width", width5 + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        /* svg6 for Day of Week - bar chart */
+        var width6 = 270 - margin.left - margin.right;
+        
+        var svg6 = d3.select("#row1").append("svg")
+            .attr("width", width6 + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        /* svg7 for Hour of Day - bar chart & time interval selector */
+        var width7 = 315 - margin.left - margin.right;
+        
+        var svg7 = d3.select("#row1").append("svg")
+            .attr("width", width7 + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        /* svg8 for Word Count - bar chart */
+        var width8 = 415 - margin.left - margin.right;
+        
+        var svg8 = d3.select("#row1").append("svg")
+            .attr("width", width8 + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+        /* convert week of day numbers to English */
+        var dayOfWeek = {
+            "0" : "Sun",
+            "1" : "Mon",
+            "2" : "Tue",
+            "3" : "Wed",
+            "4" : "Thu",
+            "5" : "Fri",
+            "6" : "Sat"
+        }
+        
+        function isEmpty(object) {
+            for(var key in object) {
+                if(object.hasOwnProperty(key)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        /* data filter control */
+        var selectControl = {};
+        
+        /* Load data, process and draw functions */
+        d3.csv("aggr_image.csv", function(data) {
+        
+            eImg = eventImage(data);
+
+            // call heatMap function
+            hMap = heatMap1(data, map);
+            //setMapHandlers(data, map);
+            
+            wCloud = wordCloud(data);
+            
+            // Removed year bar
+            //var yBar = yearBar(data);
+
+            // Removed month bar
+            // var mBar = monthBar(data);
+            
+            wBar = weekdayBar(data);
+
+            hBar = hourBar(data);
+            
+            lPie = langPie(data);
+            
+        }) // end of d3.csv("aggregate.csv", function(d) { } )
+
+        function addFilter(attribute, value, data) {
+            if (isEmpty(selectControl)){
+                selectControl[attribute] = value;
+                if (attribute == "hour") {
+                    newData = data.filter(function(s) {
+                        return s[attribute] == selectControl.hour.filter(function(g){
+                            return g == s[attribute];
+                        });
+                    });
+                }
+                else {
+                    newData = data.filter(function(s) {
+                        return s[attribute] == selectControl[attribute];
+                    });
+                }
+                updateAll(newData, attribute);
+            }
+            else {
+                if (selectControl.hasOwnProperty(attribute)) {
+                    if (Array.isArray(selectControl[attribute])) {
+                        if (Array.isArray(value)) {
+                            value.forEach(function(d) {
+                                selectControl[attribute].push(d);
+                            });
+                        }
+                        else {
+                            selectControl[attribute].push(value);
+                        }
+                    }
+                    else {
+                        selectControl[attribute] = [selectControl[attribute], value];
+                    } // end of if attribute exists
+                }
+                else {
+                    selectControl[attribute] = value;
+                }
+                newData = data;
+                for(var key in selectControl) {
+                    if(selectControl.hasOwnProperty(key)){
+                        if (Array.isArray(selectControl[key])) {
+                            newData = newData.filter(function(s) {
+                                return s[key] == selectControl[key].filter(function(g){
+                                    return g == s[key];
+                                })})} // end of if attribute is array
+                        else {
+                            newData = newData.filter(function(s) {
+                                return s[key] == selectControl[key];
+                            })} // end of else: if attribute is array
+                    }}; // end of for loop
+                updateAll(newData, attribute);
+            } // end of else: if isEmpty()
+        }; // end of function addFilter(filter, value)
+        
+        function replaceFilter(attribute, value, data) {
+            if (attribute == "event" || attribute == "lid") {
+                selectControl = {};
+            }
+            selectControl[attribute] = value;
+            newData = data;
+            for(var key in selectControl) {
+                if(selectControl.hasOwnProperty(key)){
+                    if (Array.isArray(selectControl[key])) {
+                        newData = newData.filter(function(s) {
+                            return s[key] == selectControl[key].filter(function(g){
+                                return g == s[key];
+                            })})} // end of if attribute is array
+                    else {
+                        newData = newData.filter(function(s) {
+                            return s[key] == selectControl[key];
+                        })} // end of else: if attribute is array
+                }}; // end of for loop
+            updateAll(newData, attribute);
+        }; // end of function replaceFilter(attribute, value)
+        
+        function removeFilter(attribute, value, data) {
+            if (Array.isArray(selectControl[attribute])) {
+                if (selectControl[attribute].length == 1) {
+                    delete selectControl[attribute];
+                }
+                else {
+                    if (attribute == "hour") {
+                        if (selectControl.hour.length == 6) {
+                            delete selectControl.hour
+                        }
+                        else {
+                            var index = selectControl.hour.indexOf(value[0]);
+                            if (index > -1) {
+                                selectControl.hour.splice(index, 6);
+                            }
+                        }
+                    }
+                    else {
+                        var index = selectControl[attribute].indexOf(value);
+                        if (index > -1) {
+                            selectControl[attribute].splice(index, 1);
+                    }
+                    }
+                }
+                newData = data;
+                for(var key in selectControl) {
+                    if(selectControl.hasOwnProperty(key)){
+                        if (Array.isArray(selectControl[key])) {
+                            newData = newData.filter(function(s) {
+                                return s[key] == selectControl[key].filter(function(g){
+                                    return g == s[key];
+                                })})} // end of if attribute is array
+                        else {
+                            newData = newData.filter(function(s) {
+                                return s[key] == selectControl[key];
+                            })} // end of else: if attribute is array
+                    }}; // end of for loop
+                updateAll(newData, attribute);
+            } // end of if array
+            else {
+                delete selectControl[attribute];
+                if (isEmpty(selectControl)) {
+                    updateAll(data, "");
+                }
+                else {
+                    newData = data;
+                    for(var key in selectControl) {
+                        if(selectControl.hasOwnProperty(key)){
+                            if (Array.isArray(selectControl[key])) {
+                                newData = newData.filter(function(s) {
+                                    return s[key] == selectControl[key].filter(function(g){
+                                        return g == s[key];
+                                    })})} // end of if attribute is array
+                            else {
+                                newData = newData.filter(function(s) {
+                                    return s[key] == selectControl[key];
+                                })} // end of else: if attribute is array
+                        }}; // end of for loop
+                    updateAll(newData, "");
+                }}}; // end of function removeFilter(filter, value)
+        
+        
+        function updateAll(newData, attribute) {
+            
+            wCloud.update(newData);
+            
+            /*
+            if (!selectControl.hasOwnProperty("month")) {
+                mBar.update(newData);
+            }
+            if (!selectControl.hasOwnProperty("year")) {
+                yBar.update(newData);
+            }
+             */
+            if (!selectControl.hasOwnProperty("weekday")) {
+                wBar.update(newData);
+            }
+           
+            if (!selectControl.hasOwnProperty("hour")) {
+                hBar.update(newData);
+            }
+            if (attribute != "language") {
+                lPie.update(newData);
+            }
+
+            if (attribute == "event") {
+                hMap.removeCurrentMarkers(newData);
+                hMap = heatMap1(newData, map);
+            }
+            
+        } // end of updateAll
+        
+        
+        // MTB: http://vallnordworldchampionships.com/
+        // Storia: http://visitandorra.com/
+        // Viota: http://www.voltaalsports.com/
+        // Vuelta: http://www.torrevieja.com/
+        // Alpine: http://www.grandvalira.com
+        // Speed: http://www.youtube.com
+        </script>
+        
+        <div id="cp">
+            <img src="MIT_ML_Logo_K_RGB.png" style="float: right;">
+            <div id="cptext">
+                <p id="copyright">MIT Media Lab | Changing Places 2016 | Claire Man-Tzu Tsao . Naichun Chen . Kairat Ashim . Kent Larson</p>
+            </div>
+        </div>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClcDIfFJfW5-pehznKpBGoE-RkmBGuH3w&callback=initMap"></script>
+    </body>
+</html>

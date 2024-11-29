@@ -1,0 +1,134 @@
+html, body {
+    background-color: black;
+    margin: 0;
+    color: white;
+}
+
+#container {
+    position: relative;
+    margin: 0 auto;
+    width: 1180px;
+    text-align: left;
+}
+
+#event{ 
+    width: 260px; 
+    height: 450px; 
+    float: left;
+}
+
+#map{ 
+    width: 510px; 
+    height: 450px; 
+    float: left;
+}
+
+#cp{ 
+    float: left; 
+    width: 1180px; 
+    height: 80px; 
+    text-align: right; 
+    position: relative;
+    color: white;
+}
+
+#t {
+    font-family: helvetica; 
+    font-size: 36px; 
+    line-height: 10px; 
+    color: white;
+}
+
+#copyright {
+    font-size: 10px; 
+    font-family: helvetica; 
+    font-weight: 100;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: center;
+    top: 0;
+    right: 0;
+    
+    width: 150px;
+    height: 28px;
+    padding: 2px;
+    font: 13px sans-serif;
+    border: 0px;
+    font-weight: bold;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.bar:hover {
+    fill: steelblue;
+}
+
+.axis {
+    font: 8px sans-serif;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #A9B2BD;
+    shape-rendering: crispEdges;
+}
+
+.arc text {
+    font: 10px sans-serif;
+    text-anchor: middle;
+}
+
+.arc path {
+    stroke: #fff;
+}
+
+#event_info {
+    margin-top: 40px;
+    font-size: 18px;
+    font-family: lucida grande;
+    font-weight: 100;
+    color: white;
+    display: inline-block;
+    padding-right: 30px;
+}
+
+#event_info:hover {
+    cursor: pointer;
+}
+
+#row1 {
+    display: flex;
+}
+
+.axis text {
+    fill: #A9B2BD;
+}
+
+.markers, .markers svg {
+  position: absolute;
+}
+
+@-webkit-keyframes redPulse {
+  from {
+    fill: #ff8e8e;
+    -webkit-box-shadow: 0 0 9px #333; }
+
+  50% {
+    fill: #ff4444;
+    -webkit-box-shadow: 0 0 18px #91bd09; }
+
+  to {
+    fill: #ff8e8e;
+    -webkit-box-shadow: 0 0 9px #333; } 
+}
+
+.markers svg {
+  font: 12px sans-serif; 
+}
+
+.markers circle:hover {
+  /*cursor: pointer; */
+}
