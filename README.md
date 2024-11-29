@@ -2,14 +2,8 @@
 
 This repository contains part of the visualization code used in research on leveraging social media data for urban design decision-making. The visualization focuses on analyzing and mapping sentiment data from user-generated content.
 
-## Overview
-
-# Instagram Data Visualization
-
-An interactive dashboard for people to better understand what people talked about Andorra.
-
 ### Project
-
+An interactive dashboard for people to better understand what people talked about Andorra.
 **Data Analysis for Andorra**  
 This repository contains part of the visualization code used in research on leveraging social media data for urban design decision-making. The visualization focuses on analyzing and mapping sentiment data from user-generated content.
 
