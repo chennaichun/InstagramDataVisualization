@@ -1,20 +1,33 @@
 # Instagram Data Visualization
 
-This repository contains part of the visualization code used in the research paper **"Urban Data Mining with Natural Language Processing: Social Media as a Complementary Tool for Urban Design Decision Making"** by Nai Chun Chen, Marrisa Stephens, Takehiko Nagakura, and Kent Larson.
+This repository contains part of the visualization code used in research on leveraging social media data for urban design decision-making. The visualization focuses on analyzing and mapping sentiment data from user-generated content.
 
 ## Overview
 
-The visualization in this repository focuses on mapping sentiment analysis results from social media data. This was achieved by analyzing reviews and sentiments associated with various urban features in Andorra, such as tourist attractions, parking availability, and public transportation. The results were visualized as heatmaps and interactive maps to support urban design decision-making.
+# Instagram Data Visualization
 
-## Key Features
+An interactive dashboard for people to better understand what people talked about Andorra.
 
-- **Interactive Sentiment Maps:** Highlights regions with positive or negative reviews.
-- **Heatmaps of Popularity:** Displays the popularity of different areas based on user reviews.
-- **Language-Based Analysis:** Provides insights into visitor demographics through multilingual review analysis.
+### Project
 
-## Research Context
+**Data Analysis for Andorra**  
+This repository contains part of the visualization code used in research on leveraging social media data for urban design decision-making. The visualization focuses on analyzing and mapping sentiment data from user-generated content.
 
-This project is a part of a broader effort to leverage **Natural Language Processing (NLP)** and **social media mining** to uncover urban patterns and provide actionable insights for city planners and designers. By integrating user-generated data from platforms like TripAdvisor, the research demonstrates how big data can complement traditional urban survey methods.
+## Overview
+
+The visualization code supports the findings of the research paper:  
+**"Urban Data Mining with Natural Language Processing: Social Media as a Complementary Tool for Urban Design Decision Making"**  
+Available at: [MIT DSpace](https://dspace.mit.edu/handle/1721.1/106414)
+
+### Research Context
+
+This project explores how big data and **Natural Language Processing (NLP)** can complement traditional methods for urban design and planning. By mining user-generated content such as reviews and sentiment data, the project identifies urban issues (e.g., parking shortages, traffic congestion) and opportunities for improvement.
+
+### Key Features
+
+- **Sentiment Maps**: Interactive visualizations showing positive and negative review clusters.
+- **Heatmaps**: Highlights popular areas based on review data.
+- **Multilingual Analysis**: Provides insights into visitor demographics based on review languages.
 
 ## Installation
 
@@ -23,10 +36,10 @@ To run the visualization code:
    ```bash
    git clone https://github.com/chennaichun/InstagramDataVisualization.git
 
-###Contributor
+## Contributor
 
 Naichun Chen, Claire Man-Tzu Tsao (MIT Media Lab | Changing Places Group)
 
-###Advisor
+## Advisor
 
 Kent Larson
