@@ -2,6 +2,10 @@
 
 This repository contains visualization code for a research project that leverages social media data to support urban design decision-making. The visualizations analyze and map sentiment data from user-generated content, providing insights into public perception and urban trends.
 
+## Watch the Introduction
+
+[![Instagram Data Visualization](https://img.youtube.com/vi/rcuGq5CDXF8/0.jpg)](https://www.youtube.com/watch?v=rcuGq5CDXF8)
+
 ## Project Description
 
 An interactive dashboard designed to help users better understand public discussions about Andorra.  
